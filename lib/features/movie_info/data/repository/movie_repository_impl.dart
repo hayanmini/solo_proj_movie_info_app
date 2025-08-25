@@ -18,7 +18,7 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<List<Movie>?> getPopularMovies() async {
-    final dto = await remoteDataSource.getNowPlayingMovies();
+    final dto = await remoteDataSource.getPopularMovies();
     if (dto == null) return [];
 
     return dto.map((dto) => dto.toEntity()).toList();
@@ -26,7 +26,7 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<List<Movie>?> getTopRatedMovies() async {
-    final dto = await remoteDataSource.getNowPlayingMovies();
+    final dto = await remoteDataSource.getTopRatedMovies();
     if (dto == null) return [];
 
     return dto.map((dto) => dto.toEntity()).toList();
@@ -34,7 +34,7 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<List<Movie>?> getUpcomingMovies() async {
-    final dto = await remoteDataSource.getNowPlayingMovies();
+    final dto = await remoteDataSource.getUpcomingMovies();
     if (dto == null) return [];
 
     return dto.map((dto) => dto.toEntity()).toList();

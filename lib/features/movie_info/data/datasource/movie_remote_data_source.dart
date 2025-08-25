@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_movie_info_app/features/movie_info/data/dto/movie_detail_dto.dart';
 import 'package:flutter_movie_info_app/features/movie_info/data/dto/movie_response_dto.dart';
-import 'package:flutter_movie_info_app/features/movie_info/domain/entity/movie.dart';
 import 'package:flutter_movie_info_app/features/movie_info/domain/entity/movie_detail.dart';
 import 'package:flutter_movie_info_app/features/movie_info/domain/repository/movie_interface.dart';
 

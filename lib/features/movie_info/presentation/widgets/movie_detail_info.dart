@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_info_app/features/movie_info/domain/entity/movie_detail.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class MovieDetailInfo extends StatefulWidget {
-  const MovieDetailInfo({super.key});
+class MovieDetailInfo extends ConsumerWidget {
+  final int movieId;
+  final MovieDetail data;
+
+  const MovieDetailInfo({super.key, required this.movieId, required this.data});
 
   @override
-  State<MovieDetailInfo> createState() => _MovieDetailInfoState();
-}
-
-class _MovieDetailInfoState extends State<MovieDetailInfo> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,7 +21,12 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
           decoration: BoxDecoration(
             border: Border.all(),
             borderRadius: BorderRadius.circular(20),
-            color: Colors.amber,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(
+                "http://image.tmdb.org/t/p/w500${data.posterPath}",
+              ),
+            ),
           ),
         ),
 
@@ -32,38 +38,41 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
               // 메인 정보 - 제목, 개봉일
               Row(
                 children: [
-                  Text(
-                    "title",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
-                  Spacer(),
-                  Center(
+                  Expanded(
                     child: Text(
-                      "releaseDate",
+                      data.title,
+                      //maxLines: 1,
+                      //overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontWeight: FontWeight.w100,
-                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
                       ),
                     ),
                   ),
+                  SizedBox(width: 8),
+                  Text(
+                    DateFormat("yyyy-MM-dd").format(data.releaseDate),
+                    style: TextStyle(fontWeight: FontWeight.w100, fontSize: 12),
+                  ),
+                  SizedBox(width: 8),
                 ],
               ),
               SizedBox(height: 10),
 
               // 한줄 소개
-              Text("tagline"),
+              Text(data.tagline),
               SizedBox(height: 4),
 
               // 러닝타임
-              Text("runtime분"),
+              Text("${data.runtime}분"),
               Divider(),
 
               // 장르 태그
-              _infoGenres("genres"),
+              _infoGenres(data.genres),
               Divider(),
 
               // 줄거리
-              Text("overview"),
+              Text(data.overview),
               Divider(),
 
               // 흥행정보
@@ -78,11 +87,11 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
                   itemBuilder: (context, index) {
                     return _InfoDetail(
                       value: [
-                        "voteAverage",
-                        "voteCount",
-                        "popularity",
-                        "budget",
-                        "revenue",
+                        "${data.voteAverage}",
+                        "${data.voteCount}",
+                        "${data.popularity}",
+                        "\$${data.budget}",
+                        "\$${data.revenue}",
                       ][index],
                       title: ["평점", "평점투표수", "인기 점수", "예산", "수익"][index],
                     );
@@ -96,12 +105,20 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
                 height: 100,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 3,
+                  itemCount: data.productionCompanyLogos.length,
                   itemBuilder: (context, index) {
+                    var imageUrl = data.productionCompanyLogos[index];
+                    if (imageUrl.isEmpty) {
+                      return SizedBox.shrink();
+                    }
                     return Container(
-                      width: 150,
-                      height: 80,
-                      color: Color(0xE6FFFFFF),
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Image.network(
+                          "http://image.tmdb.org/t/p/w500$imageUrl}",
+                        ),
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -118,7 +135,7 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
   }
 
   // 장르 태그
-  SizedBox _infoGenres(dynamic genres) {
+  SizedBox _infoGenres(genres) {
     return SizedBox(
       height: 40,
       child: ListView.separated(
@@ -132,7 +149,10 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.white, width: 1),
             ),
-            child: Text(genres, style: TextStyle(color: Colors.blueAccent)),
+            child: Text(
+              genres[index],
+              style: TextStyle(color: Colors.blueAccent),
+            ),
           );
         },
         separatorBuilder: (context, index) {

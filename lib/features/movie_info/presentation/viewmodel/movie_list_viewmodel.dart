@@ -43,7 +43,7 @@ class MovieListState {
 class MovieListViewmodel extends AutoDisposeNotifier<MovieListState> {
   @override
   MovieListState build() {
-    fetchMovies();
+    Future.microtask(fetchMovies);
     return const MovieListState(isLoading: true);
   }
 

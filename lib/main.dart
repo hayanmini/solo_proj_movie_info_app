@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_movie_info_app/features/movie_info/presentation/pages/home_page.dart';
@@ -14,10 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: HomePage(),
-      // home: MovieDetailPage(),
-    );
+    return MaterialApp(theme: ThemeData.dark(), home: HomePage());
   }
 }

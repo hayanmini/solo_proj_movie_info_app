@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_info_app/features/movie_info/domain/entity/movie.dart';
 import 'package:flutter_movie_info_app/features/movie_info/presentation/widgets/movie_card.dart';
 
 class MovieSection extends StatelessWidget {
   final String title;
   final bool isRank;
+  final List<Movie> data;
 
-  const MovieSection({super.key, required this.title, required this.isRank});
+  const MovieSection({
+    super.key,
+    required this.title,
+    required this.isRank,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +32,14 @@ class MovieSection extends StatelessWidget {
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 12),
             scrollDirection: Axis.horizontal,
-            itemCount: 6,
+            itemCount: data.length,
             itemBuilder: (context, index) {
+              final movie = data[index];
               return MovieCard(
                 // 이미지, 랭크 순위 여부
                 isRank: isRank,
+                movie: movie,
+                rank: isRank ? index + 1 : null,
               );
             },
             separatorBuilder: (context, index) => const SizedBox(width: 10),
