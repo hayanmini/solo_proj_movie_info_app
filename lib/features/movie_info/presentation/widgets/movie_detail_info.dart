@@ -101,7 +101,7 @@ class _MovieDetailInfoState extends State<MovieDetailInfo> {
                     return Container(
                       width: 150,
                       height: 80,
-                      color: Color(0xE60000FF),
+                      color: Color(0xE6FFFFFF),
                     );
                   },
                   separatorBuilder: (context, index) {

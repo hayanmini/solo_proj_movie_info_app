@@ -7,9 +7,11 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         // 포스터
         Container(
+          margin: EdgeInsets.only(left: isRank ? 30 : 0),
           width: 120,
           height: 180,
           decoration: BoxDecoration(
@@ -21,12 +23,12 @@ class MovieCard extends StatelessWidget {
         // 순위 출력
         if (isRank)
           Positioned(
-            left: 8,
-            bottom: 8,
+            left: 0,
+            bottom: 0,
             child: Text(
               "1",
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 100,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
