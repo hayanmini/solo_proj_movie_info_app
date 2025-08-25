@@ -1,5 +1,6 @@
 class MovieDetail {
   // 제목, 개봉일, 태그라인, 상영시간, 장르 리스트, 줄거리
+  final String posterPath;
   final String title;
   final DateTime releaseDate;
   final String tagline;
@@ -18,6 +19,7 @@ class MovieDetail {
   final List<String> productionCompanyLogos;
 
   MovieDetail({
+    required this.posterPath,
     required this.title,
     required this.releaseDate,
     required this.tagline,
